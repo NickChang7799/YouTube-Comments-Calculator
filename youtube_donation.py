@@ -38,7 +38,7 @@ service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 
 # 🚀 4. 前往 YouTube 影片
-video_url = "https://www.youtube.com/watch?v=kOZWQgtqps4&t=1s"
+video_url = "https://www.youtube.com/watch?v=kOZWQgtqps4&t=3s"
 driver.get(video_url)
 time.sleep(5)
 
@@ -63,24 +63,6 @@ while True:  # 無限滾動，直到留言不再增加
 
     last_height = new_height
     scroll_attempts += 1
-
-# TODO 測試中
-# while True:  
-#     driver.find_element(By.TAG_NAME, "body").send_keys(Keys.END)  # 滾動到底部
-#     time.sleep(5)  # 增加等待時間，確保新留言載入
-
-#     all_comments = driver.find_elements(By.CSS_SELECTOR, "ytd-comment-thread-renderer.ytd-item-section-renderer")
-#     current_comment_count = len(all_comments)
-
-#     # 如果留言數沒有變化，可能已經全部載入
-#     if current_comment_count == last_comment_count:
-#         print("✅ 留言載入完成，沒有新留言載入")
-#         break  
-
-#     last_comment_count = current_comment_count
-#     scroll_attempts += 1
-
-# print(f"✅ 已載入所有留言 (滾動 {scroll_attempts} 次)")
 
 # 🚀 6. 抓取捐款金額
 total_twd = 0
@@ -120,11 +102,7 @@ for el in donation_elements:
     print(f"✅ {text} -> TWD {converted_amount:.2f}")
 
 # 🚀 7. 計算總留言數
-all_comments = driver.find_elements(By.CSS_SELECTOR, "ytd-comment-thread-renderer")
-
-# TODO 測試中
-# all_comments = driver.find_elements(By.CSS_SELECTOR, "ytd-comment-thread-renderer.ytd-item-section-renderer")
-
+all_comments = driver.find_elements(By.CSS_SELECTOR, "ytd-comment-view-model#comment")
 total_comments = len(all_comments)
 
 # 避免除以 0 的錯誤
